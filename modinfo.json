@@ -1,0 +1,65 @@
+{
+  "HarmonyId": "JAN.bettermentions",
+  "DisplayName": "Better Mentions",
+  "Authors": [
+    "JustAnotherNoob"
+  ],
+  "Description": "Enhancements and customizations to the of mentions of the game and their recognition.",
+  "Version": "1.0.0",
+  "RequiredMods": [],
+  "Settings": {
+    "DropdownSettings": [
+      {
+        "Name": "ToS 1 highlight",
+        "Description": "Instead of a yellow background, makes the text golden.",
+        "Options": [
+          "Never",
+          "Non-Mentions Highlights",
+          "Mentions Highlights",
+          "Any Highlight"
+        ],
+        "AvailableInGame": false
+      }
+    ],
+    "CheckboxSettings": 
+    [
+      
+      {
+        "Name": "Non-Mentions Highlights",
+        "Description": "If someone says your number, the game will highlight the number.",
+        "DefaultValue": true,
+        "AvailableInGame": false
+      },
+      {
+        "Name": "Highlight Non-Mention Message",
+        "Description": "If someone says your number, it will highlight the whole chat message be as if someone had mentioned you.",
+        "DefaultValue": true,
+        "AvailableInGame": false
+      },
+      {
+        "Name": "Just show the numbers",
+        "Description": "Mentions will only show the Player Number image, and not the name. \"Player Mention Effects\" setting must be in \"Show Player Number\" for this to do any changes.",
+        "DefaultValue": false,
+        "AvailableInGame": false
+      },
+      {
+        "Name": "Other's Mentions colored",
+        "Description": "If someone mentions someone and you know their role, it will be colored of their faction.",
+        "DefaultValue": true,
+        "AvailableInGame": false
+      },
+      {
+        "Name": "Other's number colored",
+        "Description": "If someone writes the number of someone(not mention nor you) and you know their role, it will be colored of their faction.",
+        "DefaultValue": true,
+        "AvailableInGame": false
+      },
+      {
+        "Name": "Mention Panel Colored",
+        "Description": "Will apply \"Other's Mentions Colored\" to the mentions on the panel that appears when you start typing a mention.",
+        "DefaultValue": true,
+        "AvailableInGame": false
+      }
+    ]
+  }
+}

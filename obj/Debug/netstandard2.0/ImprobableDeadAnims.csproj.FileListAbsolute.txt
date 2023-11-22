@@ -1,0 +1,15 @@
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\bin\Debug\netstandard2.0\Assembly-CSharp.dll
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\bin\Debug\netstandard2.0\SalemModLoader.dll
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\bin\Debug\netstandard2.0\Unity.TextMeshPro.dll
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\bin\Debug\netstandard2.0\UnityEngine.UI.dll
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\obj\Debug\netstandard2.0\ImprobableDeadAnims.csproj.AssemblyReference.cache
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\obj\Debug\netstandard2.0\ImprobableDeadAnims.GeneratedMSBuildEditorConfig.editorconfig
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\obj\Debug\netstandard2.0\ImprobableDeadAnims.AssemblyInfoInputs.cache
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\obj\Debug\netstandard2.0\ImprobableDeadAnims.AssemblyInfo.cs
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\obj\Debug\netstandard2.0\ImprobableDeadAnims.csproj.CoreCompileInputs.cache
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\obj\Debug\netstandard2.0\ImprobableDeadAnims.csproj.CopyComplete
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\bin\Debug\netstandard2.0\ImprobableDeadAnims.deps.json
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\bin\Debug\netstandard2.0\ImprobableDeadAnims.dll
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\bin\Debug\netstandard2.0\ImprobableDeadAnims.pdb
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\obj\Debug\netstandard2.0\ImprobableDeadAnims.dll
+D:\Apps\JAN's stuff\ToS 2\UnprobableDeadAnimations\obj\Debug\netstandard2.0\ImprobableDeadAnims.pdb
