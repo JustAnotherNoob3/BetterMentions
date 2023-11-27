@@ -51,7 +51,7 @@ namespace Main
             bool highlightFully = ModSettings.GetBool("Highlight Non-Mention Message", "JAN.bettermentions");
             if (!highlightNum && !highlightFully) return;
             bool toReplace = false;
-            ((ChatItemData)__instance.Data).encodedText = Regex.Replace(((ChatItemData)__instance.Data).encodedText, "(?<!\\[\\[:|\\[\\[@|\\[\\[#)\\b\\d+\\b(?!>|\">)", match =>
+            ((ChatItemData)__instance.Data).encodedText = Regex.Replace(((ChatItemData)__instance.Data).encodedText, "(?<!\\[\\[:|\\[\\[@|\\[\\[#)\\b\\d{1,2}\\b(?!>|\">)", match =>
             {
                 if (Convert.ToInt32(match.Value) != Pepper.GetMyPosition() + 1) return match.Value;
                 if (highlightFully)
@@ -78,7 +78,7 @@ namespace Main
             if (Service.Game.Sim.simulation.m_currentGamePhase != GamePhase.PLAY) return;
 
             ((ChatItemData)__instance.Data).encodedText
-            = Regex.Replace(((ChatItemData)__instance.Data).encodedText, "(?<!\\[\\[:|\\[\\[@|\\[\\[#)\\b\\d+\\b(?!>|\">|\"\\sname=\"Player)", match =>
+            = Regex.Replace(((ChatItemData)__instance.Data).encodedText, "(?<!\\[\\[:|\\[\\[@|\\[\\[#)\\b\\d{1,2}\\b(?!>|\">|\"\\sname=\"Player)", match =>
             {
                 int num = Convert.ToInt32(match.Value) - 1;
                 if (num > Service.Game.Sim.simulation.validPlayerCount.Get() || num < 1 || num == Pepper.GetMyPosition()) return match.Value;
