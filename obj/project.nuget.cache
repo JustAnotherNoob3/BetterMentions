@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8y9hCJvVg3t47U2Q4upXrNo9mB1/FSptrLWJb/TAJsevdjqJxgEnpNaEn7rfPMkrNlXWLWm+fOpF4A9+CZJUcQ==",
+  "dgSpecHash": "/fNBbdHMstetTvpfTMuTr1xGqW0MrD5isDMmK/HNmMCO0dmahAY04aRhxlbnbRXm+LlO8wjiGM5K1zXiYYTV4A==",
   "success": true,
-  "projectFilePath": "D:\\Apps\\JAN's stuff\\ToS 2\\BetterMentions\\BetterMentions.csproj",
+  "projectFilePath": "C:\\Users\\Eze\\Documents\\GitHub\\BetterMentions\\BetterMentions.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Eze\\.nuget\\packages\\harmonyx\\2.10.1\\harmonyx.2.10.1.nupkg.sha512",
     "C:\\Users\\Eze\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
