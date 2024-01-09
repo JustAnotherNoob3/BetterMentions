@@ -1,0 +1,5 @@
+D:\Apps\JAN's stuff\ToS 2\BetterMentions\obj\Debug\net472\BetterMentions.csproj.AssemblyReference.cache
+D:\Apps\JAN's stuff\ToS 2\BetterMentions\obj\Debug\net472\BetterMentions.GeneratedMSBuildEditorConfig.editorconfig
+D:\Apps\JAN's stuff\ToS 2\BetterMentions\obj\Debug\net472\BetterMentions.AssemblyInfoInputs.cache
+D:\Apps\JAN's stuff\ToS 2\BetterMentions\obj\Debug\net472\BetterMentions.AssemblyInfo.cs
+D:\Apps\JAN's stuff\ToS 2\BetterMentions\obj\Debug\net472\BetterMentions.csproj.CoreCompileInputs.cache

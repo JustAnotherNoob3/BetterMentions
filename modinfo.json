@@ -1,11 +1,11 @@
 {
   "HarmonyId": "JAN.bettermentions",
-  "DisplayName": "Better Mentions",
+  "DisplayName": "Better Player Mentions",
   "Authors": [
     "JustAnotherNoob"
   ],
   "Description": "Enhancements and customizations to the of mentions of the game, their recognition and their highlighting.",
-  "Version": "1.0.1",
+  "Version": "1.1.0",
   "RequiredMods": [],
   "Settings": {
     "DropdownSettings": [
@@ -71,6 +71,18 @@
         "Name": "Mention Panel Colored",
         "Description": "Will apply the settings to color numbers to the mentions on the panel that appears when you start typing a mention.",
         "DefaultValue": true,
+        "AvailableInGame": false
+      },
+      {
+        "Name": "Colored Input's Mentions",
+        "Description": "Settings like \"Color My Mention\" will apply to the chatbox, will, notes, etc.",
+        "DefaultValue": true,
+        "AvailableInGame": false
+      },
+      {
+        "Name": "Only Numbers in Inputs",
+        "Description": "You will only write the numbers on mentions in your input (\"Just show the numbers\" not needed).",
+        "DefaultValue": false,
         "AvailableInGame": false
       }
       
