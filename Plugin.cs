@@ -23,7 +23,7 @@ namespace Main
         public static void Start()
         {
             Debug.Log("Working?");
-            
+
         }
     }
     [HarmonyPatch(typeof(HudChatPoolItem), "Validate")]
@@ -48,7 +48,7 @@ namespace Main
             string msg = messageEntry.message;
             if (msg.Contains($"[[@{Pepper.GetMyPosition() + 1}]]"))
             {
-                if ((highlight == "Mentions Highlights" || highlight == "Any Highlight") && Regex.IsMatch(msg.Replace(" ",""), @"(?<!\[\[(?:@|#|:))\w"))
+                if ((highlight == "Mentions Highlights" || highlight == "Any Highlight") && Regex.IsMatch(msg.Replace(" ", ""), @"(?<!\[\[(?:@|#|:))\w"))
                 {
                     ((ChatItemData)__instance.Data).decodedText = ((ChatItemData)__instance.Data).decodedText.Replace("<color=white>", "<color=yellow>");
                     __instance.highlight.gameObject.SetActive(false);
@@ -99,13 +99,15 @@ namespace Main
                 if (tuple.Item1 == Role.STONED) color = "#9C9A9A";
                 return $"<color={color}>{match.Value}</color>";
             });
-            SetText:
+        SetText:
             __instance.textField.SetText(((ChatItemData)__instance.Data).decodedText);
         }
     }
     [HarmonyPatch(typeof(HudGraveyardPanel), "HandleOnKillRecordsChanged")]
-    class UpdateMentions{
-        static public void Postfix(){
+    class UpdateMentions
+    {
+        static public void Postfix()
+        {
             DontDeleteModdedMentions.update = true;
         }
     }
@@ -115,21 +117,20 @@ namespace Main
         static public bool Prefix(MentionMenuItem __instance, MentionInfo mentionInfo)
         {
             if (mentionInfo.mentionInfoType != MentionInfo.MentionInfoType.PLAYER || Service.Game.Sim.simulation.m_currentGamePhase != GamePhase.PLAY) return true;
-            bool isColored = ModSettings.GetBool("Mention Panel Colored","JAN.bettermentions");
-            bool toInput = ModSettings.GetBool("Colored Input's Mentions","JAN.bettermentions");
-            if(!isColored && !toInput) return true;
-            Debug.Log(mentionInfo.encodedText);
+            bool isColored = ModSettings.GetBool("Mention Panel Colored", "JAN.bettermentions");
+            bool toInput = ModSettings.GetBool("Colored Input's Mentions", "JAN.bettermentions");
+            if (!isColored && !toInput) return true;
             string p = mentionInfo.encodedText.Substring(3);
             int num = Convert.ToInt32(p.Length == 3 ? p[0].ToString() : p.Substring(0, 2)) - 1;
             string tempEncodedText = mentionInfo.richText;
-            if(!isColored)__instance.textField.text = Regex.Replace(tempEncodedText, "<color=#[A-Za-z0-9]+>", match => {
+            if (!isColored) __instance.textField.text = Regex.Replace(tempEncodedText, "<color=#[A-Za-z0-9]+>", match =>
+            {
                 return "<color=#FCCE3B>";
             });
-            Debug.Log(__instance.textField.text);
             if (!ModSettings.GetBool("Other's Mentions colored", "JAN.bettermentions")) goto DeleteText;
             bool s = !ModSettings.GetBool("Color My Mention", "JAN.bettermentions");
             if (num == Pepper.GetMyPosition() && s) goto DeleteText;
-            if(!tempEncodedText.Contains("<color=#FCCE3B>")) goto DeleteText;
+            if (!tempEncodedText.Contains("<color=#FCCE3B>")) goto DeleteText;
             Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
             if (tuple == null) goto DeleteText;
             string color = "white";
@@ -139,110 +140,119 @@ namespace Main
             }
             if (tuple.Item1 == Role.STONED) color = "#9C9A9A";
             tempEncodedText = mentionInfo.richText.Replace("#FCCE3B", color);
-            if(toInput)mentionInfo.richText = tempEncodedText;
+            if (toInput) mentionInfo.richText = tempEncodedText;
             DeleteText:
             //if(Service.Home.UserService.Settings.MentionsPlayerEffects != 2 || !ModSettings.GetBool("Just show the numbers", "JAN.bettermentions") || !toInput) goto SetText; i cant figure out a good way to do this, so it stays like this.
             //string[] lol = mentionInfo.richText.Split(new string[]{"<color="}, StringSplitOptions.RemoveEmptyEntries);
             //mentionInfo.richText = lol[0] + (lol[1].Split(new string[]{"</color>"}, StringSplitOptions.RemoveEmptyEntries)[1]);
             //SetText:
-            if(toInput)__instance.mentionInfo = mentionInfo;
-            if(isColored)__instance.textField.text = tempEncodedText;
+            if (toInput) __instance.mentionInfo = mentionInfo;
+            if (isColored) __instance.textField.text = tempEncodedText;
             return false;
         }
     }
     [HarmonyPatch(typeof(MentionsProvider), "ProcessDecodedText")]
-    class ProcessModdedText{
+    class ProcessModdedText
+    {
         [HarmonyPostfix]
-        public static void Postfix(ref string __result){
-            __result = Regex.Replace(__result, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\">(?:<color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>)?", match => {
+        public static void Postfix(ref string __result)
+        {
+            __result = Regex.Replace(__result, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\">(?:<color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>)?", match =>
+            {
                 return $"[[@{match.Groups[1].Value}]]";
             });
         }
     }
 
     [HarmonyPatch(typeof(MentionsProvider), "ValidateTextualMentions")]
-    class DontDeleteModdedMentions{
+    class DontDeleteModdedMentions
+    {
         public static bool update = false;
         [HarmonyPrefix]
-        public static bool Prefix(ref bool __result, MentionsProvider __instance){
+        public static bool Prefix(ref bool __result, MentionsProvider __instance)
+        {
             bool result = false;
-            if(Regex.IsMatch(__instance._matchInfo.fullText, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\"><color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>")){
-			if(Service.Home.UserService.Settings.MentionsPlayerEffects == 2&&ModSettings.GetBool("Only Numbers in Inputs","JAN.bettermentions")){
-            __instance._matchInfo.fullText = Regex.Replace(__instance._matchInfo.fullText, "(<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">)<color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>", match=>{
-                return match.Groups[1].Value;
-            });
-            result = true;
-            }else if(ModSettings.GetBool("Colored Input's Mentions","JAN.bettermentions") && update){
-                __instance._matchInfo.fullText = Regex.Replace(__instance._matchInfo.fullText, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\"><color=#FCCE3B>[A-Za-z0-9 ]+</color>", match=>{
-                string text = match.Value;
-                int num = int.Parse(match.Groups[1].Value) - 1;
-                Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
-                if (tuple == null) return text;
-                string color = "white";
-                if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
+            if (Regex.IsMatch(__instance._matchInfo.fullText, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\"><color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>"))
+            {
+                if (Service.Home.UserService.Settings.MentionsPlayerEffects == 2 && ModSettings.GetBool("Only Numbers in Inputs", "JAN.bettermentions"))
                 {
-                    color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
+                    __instance._matchInfo.fullText = Regex.Replace(__instance._matchInfo.fullText, "(<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">)<color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>", match =>
+                    {
+                        return match.Groups[1].Value;
+                    });
+                    result = true;
                 }
-                if (tuple.Item1 == Role.STONED) color = "#9C9A9A";
-                text = text.Replace("#FCCE3B", color);
-                return text;
-                });
-            update = false;
-            result = true;
-            }
+                else if (ModSettings.GetBool("Colored Input's Mentions", "JAN.bettermentions") && update)
+                {
+                    __instance._matchInfo.fullText = Regex.Replace(__instance._matchInfo.fullText, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\"><color=#FCCE3B>[A-Za-z0-9 ]+</color>", match =>
+                    {
+                        string text = match.Value;
+                        int num = int.Parse(match.Groups[1].Value) - 1;
+                        Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
+                        if (tuple == null) return text;
+                        string color = "white";
+                        if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
+                        {
+                            color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
+                        }
+                        if (tuple.Item1 == Role.STONED) color = "#9C9A9A";
+                        text = text.Replace("#FCCE3B", color);
+                        return text;
+                    });
+                    update = false;
+                    result = true;
+                }
             }
             for (int j = 0; j < __instance._textualMentionInfos.Count; j++)
-			{
-				MentionInfo mentionInfo = __instance._textualMentionInfos[j];
-				if (!__instance._matchInfo.fullText.Contains(mentionInfo.richText))
-				{
-					__instance._textualMentionInfos.RemoveAt(j);
-					j--;
-				}
-			}
-			int num = 0;
-			for (;;)
-			{
-				num = __instance._matchInfo.fullText.IndexOf(__instance.styleTagOpen, num);
-				if (num < 0)
-				{
-                    __result = result;
-					return false;
-				}
-				int num2 = __instance._matchInfo.fullText.IndexOf(__instance.styleTagClose, num);
-				if (num2 < 0)
-				{
-					break;
-				}
-				string text = __instance._matchInfo.fullText.Substring(num, num2 - num + __instance.styleTagClose.Length);
-                Debug.Log("The text was "+text);
-				int fullHash = text.ToLower().GetHashCode();
-				if (__instance.MentionInfos.Any((MentionInfo i) => i.hashCode == fullHash)||CheckIfValidMention(text))
-				{
-					num++;
-				}
-				else
-				{
-                    Debug.Log($"Before deleting:{__instance._matchInfo.fullText}");
-					__instance._matchInfo.fullText = __instance._matchInfo.fullText.Remove(num, text.Length);
-                    Debug.Log($"after deleting:{__instance._matchInfo.fullText}");
-					result = true;
-					__instance._matchInfo.stringPosition = num;
-				}
-			}
-			__instance._matchInfo.fullText = __instance._matchInfo.fullText.Substring(0, num);
-			result = true;
-            __result = result;
-			return false;
-        }
-        static bool CheckIfValidMention(string text){
-            if(Regex.IsMatch(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\"><color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>"))
             {
-            Match match = Regex.Match(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\"><color=#[A-Za-z0-9]+>([A-Za-z0-9 ]+)</color>");
-            if(Service.Game.Sim.simulation.GetDisplayName(Convert.ToInt32(match.Groups[1].Value)-1) == match.Groups[2].Value)return true;
-            return false;
+                MentionInfo mentionInfo = __instance._textualMentionInfos[j];
+                if (!__instance._matchInfo.fullText.Contains(mentionInfo.richText))
+                {
+                    __instance._textualMentionInfos.RemoveAt(j);
+                    j--;
+                }
             }
-            else if(Regex.IsMatch(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">(?!<color=#[A-Za-z0-9]+>([A-Za-z0-9 ]+)</color>)"))return true;
+            int num = 0;
+            for (; ; )
+            {
+                num = __instance._matchInfo.fullText.IndexOf(__instance.styleTagOpen, num);
+                if (num < 0)
+                {
+                    __result = result;
+                    return false;
+                }
+                int num2 = __instance._matchInfo.fullText.IndexOf(__instance.styleTagClose, num);
+                if (num2 < 0)
+                {
+                    break;
+                }
+                string text = __instance._matchInfo.fullText.Substring(num, num2 - num + __instance.styleTagClose.Length);
+                int fullHash = text.ToLower().GetHashCode();
+                if (__instance.MentionInfos.Any((MentionInfo i) => i.hashCode == fullHash) || CheckIfValidMention(text))
+                {
+                    num++;
+                }
+                else
+                {
+                    __instance._matchInfo.fullText = __instance._matchInfo.fullText.Remove(num, text.Length);
+                    result = true;
+                    __instance._matchInfo.stringPosition = num;
+                }
+            }
+            __instance._matchInfo.fullText = __instance._matchInfo.fullText.Substring(0, num);
+            result = true;
+            __result = result;
+            return false;
+        }
+        static bool CheckIfValidMention(string text)
+        {
+            if (Regex.IsMatch(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\"><color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>"))
+            {
+                Match match = Regex.Match(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\"><color=#[A-Za-z0-9]+>([A-Za-z0-9 ]+)</color>");
+                if (Service.Game.Sim.simulation.GetDisplayName(Convert.ToInt32(match.Groups[1].Value) - 1) == match.Groups[2].Value) return true;
+                return false;
+            }
+            else if (Regex.IsMatch(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">(?!<color=#[A-Za-z0-9]+>([A-Za-z0-9 ]+)</color>)")) return true;
             return false;
         }
 
@@ -261,7 +271,7 @@ namespace Main
                 {
                     if (flag1)
                     {
-                        return match.Groups[1].Value+"\">";
+                        return match.Groups[1].Value + "\">";
                     }
                     if (flag2)
                     {
