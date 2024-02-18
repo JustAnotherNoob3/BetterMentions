@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PGyyH6CQNkxF9yl88BB1Kmqpdj2VdTddvC2Gj1DWnCuslWqrIIyvT2B/zk7muQH+3JManmEZlzlNI91pRsm8pQ==",
+  "dgSpecHash": "UXwEaQS5hNPgR/WfoHLwVYdzwx13dczAp13U6/E9iAzAGEa1onTmHVt5E1Ep1NaYGoaITXE3blunaLi82y/VoA==",
   "success": true,
   "projectFilePath": "D:\\Apps\\JAN's stuff\\ToS 2\\BetterMentions\\BetterMentions.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "C:\\Users\\Eze\\.nuget\\packages\\monomod.runtimedetour\\22.3.23.4\\monomod.runtimedetour.22.3.23.4.nupkg.sha512",
     "C:\\Users\\Eze\\.nuget\\packages\\monomod.utils\\22.3.23.4\\monomod.utils.22.3.23.4.nupkg.sha512",
     "C:\\Users\\Eze\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\Eze\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Eze\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\Eze\\.nuget\\packages\\system.collections.nongeneric\\4.3.0\\system.collections.nongeneric.4.3.0.nupkg.sha512",
     "C:\\Users\\Eze\\.nuget\\packages\\system.collections.specialized\\4.3.0\\system.collections.specialized.4.3.0.nupkg.sha512",

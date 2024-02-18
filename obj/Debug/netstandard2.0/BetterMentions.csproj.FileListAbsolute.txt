@@ -13,3 +13,4 @@ D:\Apps\JAN's stuff\ToS 2\BetterMentions\obj\Debug\netstandard2.0\BetterMentions
 D:\Apps\JAN's stuff\ToS 2\BetterMentions\obj\Debug\netstandard2.0\BetterMentions.csproj.CopyComplete
 D:\Apps\JAN's stuff\ToS 2\BetterMentions\obj\Debug\netstandard2.0\BetterMentions.dll
 D:\Apps\JAN's stuff\ToS 2\BetterMentions\obj\Debug\netstandard2.0\BetterMentions.pdb
+D:\Apps\JAN's stuff\ToS 2\BetterMentions\bin\Debug\netstandard2.0\BetterTOS2.dll

@@ -26,6 +26,7 @@ namespace Main
 
         }
     }
+    [ConditionalPatch("curtis.tuba.better.tos2", true)]
     [HarmonyPatch(typeof(HudChatPoolItem), "Validate")]
     public class DetectNonMentions
     {
@@ -88,7 +89,7 @@ namespace Main
             = Regex.Replace(((ChatItemData)__instance.Data).decodedText, "(?<!indent=)\\b\\d{1,2}\\b(?!>|\">|\"\\sname=\"Player)", match =>
             {
                 int num = Convert.ToInt32(match.Value) - 1;
-                if (num > Service.Game.Sim.simulation.validPlayerCount.Get() || num < 1 || (num == Pepper.GetMyPosition() && s)) return match.Value;
+                if (num > Service.Game.Sim.simulation.validPlayerCount.Get() || num < 0 || (num == Pepper.GetMyPosition() && s)) return match.Value;
                 Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
                 if (tuple == null) return match.Value;
                 string color = "white";
@@ -111,6 +112,7 @@ namespace Main
             DontDeleteModdedMentions.update = true;
         }
     }
+    [ConditionalPatch("curtis.tuba.better.tos2", true)]
     [HarmonyPatch(typeof(MentionMenuItem), "Initialize")]
     class MentionsPatchMenu
     {
@@ -138,14 +140,10 @@ namespace Main
             {
                 color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
             }
-            if (tuple.Item1 == Role.STONED) color = "#9C9A9A";
+            else if (tuple.Item1 == Role.STONED) color = "#9C9A9A";
             tempEncodedText = mentionInfo.richText.Replace("#FCCE3B", color);
             if (toInput) mentionInfo.richText = tempEncodedText;
             DeleteText:
-            //if(Service.Home.UserService.Settings.MentionsPlayerEffects != 2 || !ModSettings.GetBool("Just show the numbers", "JAN.bettermentions") || !toInput) goto SetText; i cant figure out a good way to do this, so it stays like this.
-            //string[] lol = mentionInfo.richText.Split(new string[]{"<color="}, StringSplitOptions.RemoveEmptyEntries);
-            //mentionInfo.richText = lol[0] + (lol[1].Split(new string[]{"</color>"}, StringSplitOptions.RemoveEmptyEntries)[1]);
-            //SetText:
             if (toInput) __instance.mentionInfo = mentionInfo;
             if (isColored) __instance.textField.text = tempEncodedText;
             return false;
@@ -157,13 +155,13 @@ namespace Main
         [HarmonyPostfix]
         public static void Postfix(ref string __result)
         {
-            __result = Regex.Replace(__result, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\">(?:<color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>)?", match =>
+            __result = Regex.Replace(__result, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\">(?:<color=#[A-Za-z0-9]+>[A-Za-z0-9 <>=#]+</color>)?", match =>
             {
                 return $"[[@{match.Groups[1].Value}]]";
             });
         }
     }
-
+    [ConditionalPatch("curtis.tuba.better.tos2", true)]
     [HarmonyPatch(typeof(MentionsProvider), "ValidateTextualMentions")]
     class DontDeleteModdedMentions
     {
@@ -257,6 +255,7 @@ namespace Main
         }
 
     }
+    [ConditionalPatch("curtis.tuba.better.tos2", true)]
     [HarmonyPatch(typeof(MentionsProvider), "DecodeText")]
     class MentionsPatchChat
     {

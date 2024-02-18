@@ -11,8 +11,10 @@
         "dependencies": {
           "HarmonyX": "2.10.1",
           "NETStandard.Library": "2.0.3",
+          "Newtonsoft.Json": "13.0.3",
           "UnityEngine.Modules": "2021.3.1",
           "Assembly-CSharp": "0.0.0.0",
+          "BetterTOS2": "0.0.0.0",
           "SalemModLoader": "0.6.0.0",
           "Unity.TextMeshPro": "0.0.0.0",
           "UnityEngine.UI": "1.0.0.0"
@@ -93,6 +95,14 @@
       "NETStandard.Library/2.0.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "Newtonsoft.Json/13.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.3.27908"
+          }
         }
       },
       "System.Collections/4.3.0": {
@@ -379,6 +389,14 @@
           }
         }
       },
+      "BetterTOS2/0.0.0.0": {
+        "runtime": {
+          "BetterTOS2.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "SalemModLoader/0.6.0.0": {
         "runtime": {
           "SalemModLoader.dll": {
@@ -459,6 +477,13 @@
       "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "path": "newtonsoft.json/13.0.3",
+      "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
     },
     "System.Collections/4.3.0": {
       "type": "package",
@@ -657,6 +682,11 @@
       "hashPath": "unityengine.modules.2021.3.1.nupkg.sha512"
     },
     "Assembly-CSharp/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BetterTOS2/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="HarmonyX" Version="2.10.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="UnityEngine.Modules" Version="2021.3.1" IncludeAssets="compile" />
   </ItemGroup>
   
@@ -34,5 +35,6 @@
     <Reference Include="UnityEngine.UI"><HintPath>lib\UnityEngine.UI.dll</HintPath></Reference>
     <Reference Include="SalemModLoader"><HintPath>lib\SalemModLoader.dll</HintPath></Reference>
    <Reference Include="Unity.TextMeshPro"><HintPath>lib\Unity.TextMeshPro.dll</HintPath></Reference>
+   <Reference Include="BetterTOS2"><HintPath>lib\BetterTOS2.dll</HintPath></Reference>
   </ItemGroup>
 </Project>
