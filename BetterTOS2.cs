@@ -178,15 +178,15 @@ namespace MainBtos
             bool flag2 = ModSettings.GetBool("Other's Mentions colored", "JAN.bettermentions");
             bool s = !ModSettings.GetBool("Color My Mention", "JAN.bettermentions");
             if ((flag1 | flag2) && Service.Game.Sim.simulation.m_currentGamePhase == GamePhase.PLAY)
-                __result = Regex.Replace(__result, "(?<=<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_)(\\d+)\"><color=#[A-Za-z0-9]+>[A-Za-z0-9 <>#/]+?</color>", match =>
+                __result = Regex.Replace(__result, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#[A-Za-z0-9]+>[A-Za-z0-9 <>#/]+?</color>", match =>
                 {
                     if (flag1)
                     {
-                        return match.Groups[1].Value + "\">";
+                        return $"<link=\"{match.Groups[1].Value}\"><sprite=\"PlayerNumbers\" name=\"PlayerNumbers_{match.Groups[1].Value}\">";
                     }
                     if (flag2)
                     {
-                        int num = Convert.ToInt32(match.Groups[1].Value) - 1;
+                        int num = Convert.ToInt32(match.Groups[1].Value);
                         if (num == Pepper.GetMyPosition() && s) return match.Value;
                         Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
                         if (tuple == null) return match.Value;
@@ -228,7 +228,7 @@ namespace MainBtos
         {
             if (!BTOSInfo.IS_MODDED) return Main.DontDeleteModdedMentions.Prefix(ref __result, __instance);
             bool result = false;
-            if (Regex.IsMatch(__instance._matchInfo.fullText, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\"><color=#[A-Za-z0-9]+>[A-Za-z0-9 <>/#=]+</color>"))
+            if (Regex.IsMatch(__instance._matchInfo.fullText, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#[A-Za-z0-9]+>[A-Za-z0-9 <>/#=]+</color>"))
             {
                 if (Service.Home.UserService.Settings.MentionsPlayerEffects == 2 && ModSettings.GetBool("Only Numbers in Inputs", "JAN.bettermentions"))
                 {
@@ -240,10 +240,10 @@ namespace MainBtos
                 }
                 else if (ModSettings.GetBool("Colored Input's Mentions", "JAN.bettermentions") && Main.DontDeleteModdedMentions.update)
                 {
-                    __instance._matchInfo.fullText = Regex.Replace(__instance._matchInfo.fullText, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\"><color=#FCCE3B>[A-Za-z0-9 ]+</color>", match =>
+                    __instance._matchInfo.fullText = Regex.Replace(__instance._matchInfo.fullText, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#FCCE3B>[A-Za-z0-9 ]+</color>", match =>
                     {
                         string text = match.Value;
-                        int num = int.Parse(match.Groups[1].Value) - 1;
+                        int num = int.Parse(match.Groups[1].Value) ;
                         Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
                         if (tuple == null) return text;
                         bool flag3 = Service.Game.Sim.simulation.observations.playerEffects.Exists((PlayerEffectsObservation x) => x.Data.effects.Contains((EffectType)100) && x.Data.playerPosition == num);
@@ -315,15 +315,15 @@ namespace MainBtos
         }
         static bool CheckIfValidMention(string text)
         {
-            if (Regex.IsMatch(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\"><color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>"))
+            if (Regex.IsMatch(text, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#[A-Za-z0-9]+>[A-Za-z0-9 ]+</color>"))
             {
-                Match match = Regex.Match(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\"><color=#[A-Za-z0-9]+>([A-Za-z0-9 ]+)</color>");
-                return Service.Game.Sim.simulation.GetDisplayName(Convert.ToInt32(match.Groups[1].Value) - 1) == match.Groups[2].Value;
+                Match match = Regex.Match(text, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#[A-Za-z0-9]+>([A-Za-z0-9 ]+)</color>");
+                return Service.Game.Sim.simulation.GetDisplayName(Convert.ToInt32(match.Groups[1].Value)) == match.Groups[2].Value;
             }
-            else if (Regex.IsMatch(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\"><color=#[A-Za-z0-9]+>([A-Za-z0-9 <>#/=]+)</color>"))
+            else if (Regex.IsMatch(text, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#[A-Za-z0-9]+>([A-Za-z0-9 <>#/=]+)</color>"))
             {
-                Match match = Regex.Match(text, "<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_(\\d+)\"><color=#[A-Za-z0-9]+>([A-Za-z0-9 <>#/=]+)</color>");
-                int num = Convert.ToInt32(match.Groups[1].Value) - 1;
+                Match match = Regex.Match(text, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#[A-Za-z0-9]+>([A-Za-z0-9 <>#/=]+)</color>");
+                int num = Convert.ToInt32(match.Groups[1].Value);
                 Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
                 bool flag3 = Service.Game.Sim.simulation.observations.playerEffects.Exists((PlayerEffectsObservation x) => x.Data.effects.Contains((EffectType)100) && x.Data.playerPosition == num);
                 bool flag4 = tuple.Item2.GetGradient() != null;
