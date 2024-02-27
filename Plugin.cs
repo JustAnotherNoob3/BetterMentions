@@ -157,7 +157,7 @@ namespace Main
         {
             __result = Regex.Replace(__result, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?(?:<color=#[A-Za-z0-9]+>[A-Za-z0-9 <>=#]+</color>)?", match =>
             {
-                return $"[[@{match.Groups[1].Value}]]";
+                return $"[[@{int.Parse(match.Groups[1].Value)+1}]]";
             });
         }
     }
