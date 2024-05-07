@@ -182,7 +182,7 @@ namespace MainBtos
                 {
                     if (flag1)
                     {
-                        return $"<link=\"{match.Groups[1].Value}\"><sprite=\"PlayerNumbers\" name=\"PlayerNumbers_{match.Groups[1].Value}\">";
+                        return $"<link=\"{match.Groups[1].Value}\"><sprite=\"PlayerNumbers\" name=\"PlayerNumbers_{int.Parse(match.Groups[1].Value)+1}\">";
                     }
                     if (flag2)
                     {
