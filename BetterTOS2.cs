@@ -16,6 +16,7 @@ using Mentions.UI;
 using Game.Interface;
 using Server.Shared.Info;
 using Server.Shared.Messages;
+using System.Globalization;
 
 namespace MainBtos
 {
@@ -40,13 +41,15 @@ namespace MainBtos
             if (messageEntry.speakerId == ChatLogChatMessageEntry.JAILOR_SPEAKING_ID) return;
             if (!messageEntry.speakerWasAlive) return;
             string highlight = ModSettings.GetString("ToS 1 highlight", "JAN.bettermentions");
+            string highlightColor = ModSettings.GetString("ToS 1 Highlight Color", "JAN.bettermentions");
+            string baseColor = ModSettings.GetString("Base Mentions Color", "JAN.bettermentions");
             string msg = messageEntry.message;
             if (msg.Contains($"[[@{Pepper.GetMyPosition() + 1}]]"))
             {
                 if ((highlight == "Mentions Highlights" || highlight == "Any Highlight") && Regex.IsMatch(msg.Replace(" ", ""), @"(?<!\[\[(?:@|#|:))\w"))
                 {
-                    ((ChatItemData)__instance.Data).decodedText = ((ChatItemData)__instance.Data).decodedText.Replace("<color=white>", "<color=yellow>");
-                    __instance.highlight.gameObject.SetActive(false);
+                    ((ChatItemData)__instance.Data).decodedText = ((ChatItemData)__instance.Data).decodedText.Replace("<color=white>", $"<color={highlightColor}>");
+                    if(!ModSettings.GetBool("ToS 2 Highlight W ToS 1's","JAN.bettermentions")) __instance.highlight.gameObject.SetActive(false);
                 }
 
                 goto ColorOthers;
@@ -63,7 +66,8 @@ namespace MainBtos
                     if (highlight == "Non-Mentions Highlights" || highlight == "Any Highlight")
                     {
                         toReplace = true;
-                        return "<color=#FBCD3A>" + match.Value + "</color>";
+                        if(ModSettings.GetBool("ToS 2 Highlight W ToS 1's","JAN.bettermentions")) __instance.highlight.gameObject.SetActive(true);
+                        return $"<color={baseColor}>" + match.Value + "</color>";
                     }
                     else if (__instance.highlight != null)
                     {
@@ -71,10 +75,10 @@ namespace MainBtos
                     }
                 }
                 if (highlightNum)
-                    return "<color=#FBCD3A>" + match.Value + "</color>";
+                    return $"<color={baseColor}>" + match.Value + "</color>";
                 else return match.Value;
             });
-            if (toReplace) ((ChatItemData)__instance.Data).decodedText = ((ChatItemData)__instance.Data).decodedText.Replace("<color=white>", "<color=yellow>");
+            if (toReplace) ((ChatItemData)__instance.Data).decodedText = ((ChatItemData)__instance.Data).decodedText.Replace("<color=white>", $"<color={highlightColor}>");
             ColorOthers:
             if (!ModSettings.GetBool("Other's number colored", "JAN.bettermentions")) goto SetText;
             if (Service.Game.Sim.simulation.m_currentGamePhase != GamePhase.PLAY) goto SetText;
@@ -123,17 +127,18 @@ namespace MainBtos
             bool isColored = ModSettings.GetBool("Mention Panel Colored", "JAN.bettermentions");
             bool toInput = ModSettings.GetBool("Colored Input's Mentions", "JAN.bettermentions");
             if (!isColored && !toInput) return true;
+            string baseColor = ModSettings.GetString("Base Mentions Color", "JAN.bettermentions");
             string p = mentionInfo.encodedText.Substring(3);
             int num = Convert.ToInt32(p.Length == 3 ? p[0].ToString() : p.Substring(0, 2)) - 1;
             string tempEncodedText = mentionInfo.richText;
             if (!isColored) __instance.textField.text = Regex.Replace(tempEncodedText, "<color=#[A-Za-z0-9]+>", match =>
             {
-                return "<color=#FCCE3B>";
+                return $"<color={baseColor}>";
             });
             if (!ModSettings.GetBool("Other's Mentions colored", "JAN.bettermentions")) goto SetText;
             bool s = !ModSettings.GetBool("Color My Mention", "JAN.bettermentions");
             if (num == Pepper.GetMyPosition() && s) goto SetText;
-            if (!tempEncodedText.Contains("<color=#FCCE3B>")) goto SetText;
+            if (!tempEncodedText.Contains($"<color={baseColor}>")) goto SetText;
             Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
             if (tuple == null) goto SetText;
             bool flag3 = Service.Game.Sim.simulation.observations.playerEffects.Exists((PlayerEffectsObservation x) => x.Data.effects.Contains((EffectType)100) && x.Data.playerPosition == num);
@@ -156,7 +161,7 @@ namespace MainBtos
                     color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
                 }
                 if (tuple.Item1 == Role.STONED) color = "#9C9A9A";
-                tempEncodedText = mentionInfo.richText.Replace("#FCCE3B", color);
+                tempEncodedText = mentionInfo.richText.Replace(baseColor, color);
                 if (toInput) mentionInfo.richText = tempEncodedText;
             }
         SetText:
@@ -178,6 +183,9 @@ namespace MainBtos
             bool flag2 = ModSettings.GetBool("Other's Mentions colored", "JAN.bettermentions");
             bool s = !ModSettings.GetBool("Color My Mention", "JAN.bettermentions");
             if ((flag1 | flag2) && Service.Game.Sim.simulation.m_currentGamePhase == GamePhase.PLAY)
+                {
+                string baseColor = $"<color={ModSettings.GetString("Base Mentions Color", "JAN.bettermentions")}>";
+                
                 __result = Regex.Replace(__result, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#[A-Za-z0-9]+>[A-Za-z0-9 <>#/]+?</color>", match =>
                 {
                     if (flag1)
@@ -209,7 +217,7 @@ namespace MainBtos
                                 color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
                             }
                             if (tuple.Item1 == Role.STONED) color = "#9C9A9A";
-                            return match.Value.Replace("<color=#FCCE3B>", $"<color={color}>");
+                            return match.Value.Replace(baseColor, $"<color={color}>");
                         }
 
 
@@ -218,6 +226,7 @@ namespace MainBtos
                     return match.Value;
                 });
         }
+    }
     }
     [ConditionalPatch("curtis.tuba.better.tos2", false)]
     [HarmonyPatch(typeof(MentionsProvider), "ValidateTextualMentions")]
@@ -228,9 +237,13 @@ namespace MainBtos
         {
             if (!BTOSInfo.IS_MODDED) return Main.DontDeleteModdedMentions.Prefix(ref __result, __instance);
             bool result = false;
+            string baseColor = ModSettings.GetString("Base Mentions Color", "JAN.bettermentions");
+            bool numbesrs = Service.Home.UserService.Settings.MentionsPlayerEffects == 2 && ModSettings.GetBool("Only Numbers in Inputs", "JAN.bettermentions");
+            bool coloredInput = ModSettings.GetBool("Colored Input's Mentions", "JAN.bettermentions") && Main.DontDeleteModdedMentions.update;
+            if(numbesrs || coloredInput)
             if (Regex.IsMatch(__instance._matchInfo.fullText, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#[A-Za-z0-9]+>[A-Za-z0-9 <>/#=]+</color>"))
             {
-                if (Service.Home.UserService.Settings.MentionsPlayerEffects == 2 && ModSettings.GetBool("Only Numbers in Inputs", "JAN.bettermentions"))
+                if (numbesrs)
                 {
                     __instance._matchInfo.fullText = Regex.Replace(__instance._matchInfo.fullText, "(<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">)<color=#[A-Za-z0-9]+>[A-Za-z0-9 ></#=]+</color>", match =>
                     {
@@ -238,7 +251,7 @@ namespace MainBtos
                     });
                     result = true;
                 }
-                else if (ModSettings.GetBool("Colored Input's Mentions", "JAN.bettermentions") && Main.DontDeleteModdedMentions.update)
+                else if (coloredInput)
                 {
                     __instance._matchInfo.fullText = Regex.Replace(__instance._matchInfo.fullText, "<link=\"(\\d+)\">(?:<sprite=\"PlayerNumbers\"\\sname=\"PlayerNumbers_\\d+\">|<sprite=\"Cast\" name=\"Skin\\d+\">)?<color=#FCCE3B>[A-Za-z0-9 ]+</color>", match =>
                     {
@@ -265,7 +278,7 @@ namespace MainBtos
                                 color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
                             }
                             if (tuple.Item1 == Role.STONED) color = "#9C9A9A";
-                            return text.Replace("<color=#FCCE3B>", $"<color={color}>");
+                            return text.Replace($"<color={baseColor}>", $"<color={color}>");
                         }
                     });
                     Main.DontDeleteModdedMentions.update = false;

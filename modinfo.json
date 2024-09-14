@@ -5,14 +5,14 @@
     "JustAnotherNoob"
   ],
   "Description": "Enhancements and customizations to the of mentions of the game, their recognition and their highlighting.",
-  "Version": "1.2.3",
+  "Version": "1.3.0",
   "Discord": "https://discord.gg/ht8ttc3R8E",
-  "RequiredMods": [],
+  "RequiredMods": ["JAN.modpagelib"],
   "Settings": {
     "DropdownSettings": [
       {
-        "Name": "ToS 1 highlight",
-        "Description": "Instead of a yellow background, makes the text golden.",
+        "Name": "ToS 1 Highlight",
+        "Description": "Instead of the colored background it changes the whole chat color.",
         "Options": [
           "Never",
           "Non-Mentions Highlights",
@@ -85,8 +85,43 @@
         "Description": "You will only write the numbers on mentions in your input (\"Just show the numbers\" not needed).",
         "DefaultValue": false,
         "AvailableInGame": false
+      },
+      {
+        "Name": "ToS 2 Highlight W ToS 1's",
+        "Description": "When a highlight from tos1 appears, the tos2 highlight will also be shown.",
+        "DefaultValue": false,
+        "AvailableInGame": false
       }
       
+    ],
+    "ColorPickerSettings": [
+      {
+        "Name": "ToS 2 Highlight Color",
+        "Description": "Changes the color of the colored background that appears when someone mentions you.",
+        "DefaultValue": "#FFFF00",
+        "AvailableInGame": false
+      },
+      {
+        "Name": "ToS 1 Highlight Color",
+        "Description": "Changes the color of the text when a ToS1 highlight occurs.",
+        "DefaultValue": "#FFFF00",
+        "AvailableInGame": false
+      },
+      {
+        "Name": "Base Mentions Color",
+        "Description": "Changes the default color of Mentions.\n<color=red>* RESTART OF THE GAME REQUIRED.</color>",
+        "DefaultValue": "#FCCE3B",
+        "AvailableInGame": false
+      }
+    ],
+    "SliderSettings":[
+      {
+        "Name": "Highlight Opacity",
+        "Description": "The amount of opacity that the colored background has. Default: 40%.",
+        "DefaultValue": 0.4,
+        "MinValue": 0.01,
+        "MaxValue": 1.0
+      }
     ]
   }
 }

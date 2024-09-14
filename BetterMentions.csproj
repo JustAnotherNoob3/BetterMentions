@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="modinfo.json" />
+    <EmbeddedResource Include="modpage.txt" />
     <EmbeddedResource Include="resources\images\thumbnail.png" />
   </ItemGroup>
 
@@ -31,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Assembly-CSharp"><HintPath>lib\Assembly-CSharp.dll</HintPath></Reference>
+    <Reference Include="Assembly-CSharp" Publicize="true"><HintPath>lib\Assembly-CSharp.dll</HintPath></Reference>
     <Reference Include="UnityEngine.UI"><HintPath>lib\UnityEngine.UI.dll</HintPath></Reference>
     <Reference Include="SalemModLoader"><HintPath>lib\SalemModLoader.dll</HintPath></Reference>
    <Reference Include="Unity.TextMeshPro"><HintPath>lib\Unity.TextMeshPro.dll</HintPath></Reference>
