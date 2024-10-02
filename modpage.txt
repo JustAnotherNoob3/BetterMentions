@@ -23,6 +23,7 @@ Welcome to Better Player Mentions, this mod enhances the whole player mentions s
 - <b>Base Mentions Color</b>: <line-height=100%>Changes the default color of Mentions (e.g. if set to <color=#1FBDD2>#1FBDD2</color>, <color="white">"<color=#FCCE3B>①</color><color=#1FBDD2>Giles Corey</color>"</color> instead of <color="white">"<color=#FCCE3B>①Giles Corey</color>"</color>). Applies to the color of "Non-Mentions Highlights" as well. Requires the restart of the game to apply its effects.</line-height>
 </line-height></indent>
 <size=200%><b>Changelog</b></size>
+<size=55%>v</size>1.3.1 -<indent=15%>Fixed bugs related to BTOS2, will now not show hidden roles' faction and will not double post the mentioned person's name</indent>
 <size=55%>v</size>1.3.0 -<indent=15%>Added new settings related to the coloring of highlights and mentions, as well as an option to use both ToS1 highlighting and ToS 2 highlighting. Modpage (self-reference moment) also added.</indent>
 <size=55%>v</size>1.2.3 -<indent=15%>Fixed a bug causing the mentions to show the actual number - 1 of the player when using the "Just show the numbers" setting.</indent>
 <size=55%>v</size>1.2.2 -<indent=15%>Fixed game not recognizing Jackal recruits as part of the Jackal faction</indent>

@@ -100,7 +100,7 @@ namespace Main
                 if (num > Service.Game.Sim.simulation.validPlayerCount.Get() || num < 0 || (num == Pepper.GetMyPosition() && s)) return match.Value;
                 Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
                 if (tuple == null) return match.Value;
-                string color = "white";
+                string color = baseMentionColor;
                 if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
                 {
                     color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
@@ -144,7 +144,7 @@ namespace Main
             if (!tempEncodedText.Contains($"<color={baseColor}>")) goto DeleteText;
             Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
             if (tuple == null) goto DeleteText;
-            string color = "white";
+            string color = baseColor;
             if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
             {
                 color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
@@ -201,7 +201,7 @@ namespace Main
                         int num = int.Parse(match.Groups[1].Value);
                         Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
                         if (tuple == null) return text;
-                        string color = "white";
+                        string color = baseColor;
                         if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
                         {
                             color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
@@ -292,7 +292,7 @@ namespace Main
                         if (num == Pepper.GetMyPosition() && s) return match.Value;
                         Service.Game.Sim.simulation.knownRolesAndFactions.Data.TryGetValue(num, out Tuple<Role, FactionType> tuple);
                         if (tuple == null) return match.Value;
-                        string color = "white";
+                        string color = baseColor;
                         if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
                         {
                             color = ClientRoleExtensions.GetFactionColor(tuple.Item2);

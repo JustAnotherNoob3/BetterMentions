@@ -94,6 +94,8 @@ namespace MainBtos
                 bool flag4 = tuple.Item2.GetGradient() != null;
                 if (flag3 || flag4)
                 {
+                    if (tuple.Item1 == Role.STONED || tuple.Item1 == Role.HIDDEN) 
+                    return tuple.Item1 == Role.STONED ? $"<color=#9C9A9A>{match.Value}</color>" : $"<color=#{baseColor}>{match.Value}</color>";
                     Gradient gradient;
                     if (flag3) gradient = ((FactionType)33).GetGradient();
                     else gradient = tuple.Item2.GetGradient();
@@ -102,7 +104,7 @@ namespace MainBtos
                 }
                 else
                 {
-                    string color = "white";
+                    string color = baseColor;
                     if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
                     {
                         color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
@@ -145,17 +147,21 @@ namespace MainBtos
             bool flag4 = tuple.Item2.GetGradient() != null;
             if (flag3 || flag4)
             {
+                if (tuple.Item1 == Role.STONED || tuple.Item1 == Role.HIDDEN) 
+                    tempEncodedText = (tuple.Item1 == Role.STONED ? mentionInfo.richText.Replace($"<color={baseColor}>", $"<color=#9C9A9A>"): mentionInfo.richText);
+                else {
                 string name = Service.Game.Sim.simulation.GetDisplayName(num);
                 Gradient gradient;
                 if (flag3) gradient = ((FactionType)33).GetGradient();
                 else gradient = tuple.Item2.GetGradient();
                 string gradName = AddNewConversionTags.ApplyGradient(name, gradient.Evaluate(0f), gradient.Evaluate(1f));
                 tempEncodedText = mentionInfo.richText.Replace(name, gradName);
+                }
                 if (toInput) mentionInfo.richText = tempEncodedText;
             }
             else
             {
-                string color = "white";
+                string color = baseColor;
                 if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
                 {
                     color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
@@ -202,6 +208,7 @@ namespace MainBtos
                         bool flag4 = tuple.Item2.GetGradient() != null;
                         if (flag3 || flag4)
                         {
+                            if (tuple.Item1 == Role.STONED || tuple.Item1 == Role.HIDDEN) return tuple.Item1 == Role.STONED ? match.Value.Replace(baseColor, $"<color=#9C9A9A>"): match.Value;
                             string name = Service.Game.Sim.simulation.GetDisplayName(num);
                             Gradient gradient;
                             if (flag3) gradient = ((FactionType)33).GetGradient();
@@ -211,7 +218,7 @@ namespace MainBtos
                         }
                         else
                         {
-                            string color = "white";
+                            string color = baseColor;
                             if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
                             {
                                 color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
@@ -263,6 +270,7 @@ namespace MainBtos
                         bool flag4 = tuple.Item2.GetGradient() != null;
                         if (flag3 || flag4)
                         {
+                            if (tuple.Item1 == Role.STONED || tuple.Item1 == Role.HIDDEN) return tuple.Item1 == Role.STONED ? text.Replace($"<color={baseColor}>", $"<color=#9C9A9A>"): text;
                             string name = Service.Game.Sim.simulation.GetDisplayName(num);
                             Gradient gradient;
                             if (flag3) gradient = ((FactionType)33).GetGradient();
@@ -272,7 +280,7 @@ namespace MainBtos
                         }
                         else
                         {
-                            string color = "white";
+                            string color = baseColor;
                             if (!(tuple.Item1 == Role.DEATH || tuple.Item1 == Role.HIDDEN || tuple.Item1 == Role.STONED))
                             {
                                 color = ClientRoleExtensions.GetFactionColor(tuple.Item2);
@@ -343,6 +351,7 @@ namespace MainBtos
                 if (flag3 || flag4)
                 {
                     string name = Service.Game.Sim.simulation.GetDisplayName(num);
+                    if (tuple.Item1 == Role.STONED || tuple.Item1 == Role.HIDDEN) return false;
                     Gradient gradient;
                     if (flag3) gradient = ((FactionType)33).GetGradient();
                     else gradient = tuple.Item2.GetGradient();

@@ -5,7 +5,7 @@
     "JustAnotherNoob"
   ],
   "Description": "Enhancements and customizations to the of mentions of the game, their recognition and their highlighting.",
-  "Version": "1.3.0",
+  "Version": "1.3.1",
   "Discord": "https://discord.gg/ht8ttc3R8E",
   "RequiredMods": ["JAN.modpagelib"],
   "Settings": {
@@ -24,7 +24,6 @@
     ],
     "CheckboxSettings": 
     [
-      
       {
         "Name": "Non-Mentions Highlights",
         "Description": "If someone says your number, the game will highlight the number.",
